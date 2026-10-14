@@ -1,1 +1,31 @@
-{"name":"Minha Semana — Planejador de Refeições","short_name":"Minha Semana","start_url":"./","scope":"./","display":"standalone","background_color":"#f4f8f5","theme_color":"#147d67","lang":"pt-BR"}
+{
+  "name": "Minha Semana — Planejador de Refeições",
+  "short_name": "Minha Semana",
+  "description": "Organize refeições, receitas e sua lista de compras gratuitamente.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f9f7ea",
+  "theme_color": "#145b46",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
