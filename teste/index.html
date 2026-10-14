@@ -1,0 +1,417 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#147d67"><title>Minha Semana — Planejador de Refeições</title><link rel="manifest" href="manifest.webmanifest"><meta name="description" content="Planeje refeições e organize suas compras gratuitamente."><style>:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#18352e;background:#f4f8f5}*{box-sizing:border-box}body{margin:0}.wrap{max-width:950px;margin:auto;padding:22px}header{background:#126c59;color:white;padding:26px 0}h1{margin:0;font-size:2rem}header p{margin-bottom:0}.card{background:white;border:1px solid #dce8e1;border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 5px 18px #173d2810}h2{margin-top:0}label{font-weight:650;display:block;margin:12px 0 5px}input,select,button{font:inherit}input,select{width:100%;padding:12px;border:1px solid #b6c9c0;border-radius:9px;background:white}button{background:#147d67;color:white;border:0;border-radius:10px;padding:12px 18px;cursor:pointer;font-weight:700;margin:8px 8px 0 0}button.alt{background:#e3f0e9;color:#145d4e}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.note{color:#52675e;font-size:.91rem}.day{padding:13px;border:1px solid #d7e7de;border-radius:12px;margin:10px 0}.day h3{margin:0 0 6px}.meal{padding:6px 0;border-top:1px solid #edf3ee}.meal:first-of-type{border-top:0}table{width:100%;border-collapse:collapse}td,th{padding:9px;text-align:left;border-bottom:1px solid #e1eae4} .pill{display:inline-block;background:#e5f3eb;border-radius:15px;padding:4px 10px} .warn{color:#a44419}.ok{color:#11694e}footer{padding:20px 0;font-size:.83rem;color:#52675e}@media(max-width:620px){.grid{grid-template-columns:1fr}.wrap{padding:14px}h1{font-size:1.55rem}}@media print{header,form,button,.no-print,footer{display:none!important}.card{box-shadow:none;border:0;padding:0}body{background:white}} .recipe-details{margin:9px 0 4px}.recipe-details summary{cursor:pointer;color:#126c59;font-weight:700;padding:8px;background:#edf7f1;border-radius:8px}.recipe-body{padding:12px 6px}.recipe-body li{margin:6px 0}@media print{.recipe-details{display:none!important}} .shopping-group{border:1px solid #dce8e1;border-radius:12px;padding:10px 14px;margin:12px 0}.shopping-group h3{margin:4px 0 10px}.shopping-item{display:flex;align-items:center;gap:12px;padding:9px 2px;border-top:1px solid #edf3ee;font-weight:400;margin:0}.shopping-item input{width:22px;height:22px;flex:0 0 auto;accent-color:#147d67}@media print{.shopping-item input{display:none}}
+/* Minha Semana 5.5 — refinamento visual responsivo */
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#223b32;background:#f6f7f1}
+body{line-height:1.5;background:linear-gradient(180deg,#eff7ef 0,#f7f8f4 330px)}
+.wrap{max-width:1020px;padding:24px}
+header{background:linear-gradient(125deg,#0e5b4b,#18866c);padding:20px 0 26px}
+header .wrap{padding-top:16px;padding-bottom:16px}
+header h1{font-size:clamp(1.85rem,4vw,2.5rem);letter-spacing:-.04em}
+header p{max-width:650px;line-height:1.5}
+.card{border:1px solid #e0e9df;border-radius:20px;padding:clamp(18px,3vw,30px);box-shadow:0 12px 32px #234b3010;margin:20px 0}
+h2{letter-spacing:-.025em;color:#174d3c;font-size:1.4rem}
+h3{color:#205845}
+label{color:#2d493e}
+input,select{border:1px solid #bdcec3;border-radius:12px;min-height:46px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:2px solid #71b89b;outline-offset:1px;border-color:#16836b}
+button{border-radius:12px;min-height:44px;transition:background .15s,transform .12s}
+button:hover{background:#0f6754}
+button:active{transform:scale(.985)}
+button:focus-visible{outline:3px solid #e2b44e;outline-offset:3px}
+button.alt:hover{background:#cfe7db;color:#164b3c}
+button[type="submit"]{background:#0f7059;padding:15px 24px;font-size:1.04rem;box-shadow:0 6px 14px #0b5d4622}
+.day{background:#fcfefa;border:1px solid #dce8dc;border-radius:16px;padding:16px;margin:14px 0}
+.day h3{font-size:1.16rem;margin-bottom:12px}
+.meal{background:#fff;border:1px solid #e8efe9;border-radius:13px;padding:14px;margin:10px 0;box-shadow:0 3px 12px #20462a09}
+.meal:first-of-type{border-top:1px solid #e8efe9}
+.meal strong{color:#175d49}
+.meal small{color:#607268;display:inline-block;margin:3px 0}
+.meal .swap-recipe{background:#e4f2e9;color:#185b49;border:1px solid #cce5d5;box-shadow:none}
+.meal .swap-recipe:hover{background:#cfe8d9}
+.recipe-details summary{background:#edf6ed;color:#145c48;padding:12px 14px;border-radius:11px}
+.recipe-details summary:hover{background:#e0f0e5}
+.recipe-body{line-height:1.65}
+.shopping-group{background:#fcfefa;border-color:#dbe9df;border-radius:15px;padding:14px 16px}
+.shopping-item{min-height:48px;cursor:pointer}
+.shopping-item:hover{background:#f3f8f3}
+.pill{background:#e5f3e8;color:#245c46;font-weight:600}
+@media(max-width:620px){.wrap{padding:15px}header{padding:10px 0 17px}.card{padding:17px;border-radius:16px}.day{padding:11px}.meal{padding:12px}.meal .swap-recipe{width:100%;margin-right:0}.shopping-group{padding:10px 12px}button{max-width:100%}}
+@media(prefers-reduced-motion:reduce){button,input,select{transition:none}}
+@media print{body{background:white}.day,.meal,.shopping-group{box-shadow:none;break-inside:avoid}header,form,button,.no-print,footer{display:none!important}}
+
+/* v5.6: reformulação de interface */
+:root{color:#253b31;background:#f7f6f0}body{background:#f7f6f0}header{overflow:hidden;background:#174f3f;color:#fff;padding:0;position:relative}header:before{content:"";position:absolute;width:480px;height:480px;border:1px solid #ffffff1e;border-radius:50%;right:-120px;top:-220px;pointer-events:none}header .wrap.hero{max-width:1080px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:20px;min-height:385px;padding:38px 28px 48px}.hero-copy{position:relative;z-index:1}.eyebrow,.section-kicker{font-size:.72rem;letter-spacing:.16em;font-weight:800}.eyebrow{color:#c5e4a9}.hero h1{font-size:clamp(3rem,6vw,5.3rem);line-height:1.05;letter-spacing:-.065em;margin:14px 0 20px}.hero h1 em{font-family:Georgia,serif;font-weight:400;color:#d4e6a8}.hero-lead{font-size:clamp(1.35rem,2.8vw,2rem);line-height:1.25;font-weight:700;margin:0 0 13px}.hero-copy>p:not(.hero-lead){font-size:.97rem;color:#e0ede2;max-width:390px;margin:0 0 25px}.hero-link{display:inline-flex;gap:22px;align-items:center;background:#e7e9b6;color:#174c3b;border-radius:14px;padding:13px 19px;font-weight:800;text-decoration:none;box-shadow:0 10px 20px #092b2330}.hero-link:hover{background:#f4f2c9}.version-tag{display:block;font-size:.7rem;color:#c4dccd;margin-top:18px}.hero-art{position:relative;min-height:310px;display:flex;align-items:center;justify-content:center}.plate{width:min(320px,83%);aspect-ratio:1;border-radius:50%;background:#e8ebdf;box-shadow:0 23px 35px #0c2b2855,0 0 0 14px #ffffff0e;display:grid;place-items:center;transform:rotate(-12deg)}.plate-inner{width:85%;aspect-ratio:1;border-radius:50%;background:#fffdf5;border:13px solid #f2f0e6;box-shadow:inset 0 4px 12px #00000010;position:relative}.food-piece{position:absolute;font-size:clamp(3rem,5vw,4.5rem);filter:drop-shadow(2px 5px 2px #0002)}.food-green{top:6%;left:13%}.food-red{top:9%;right:7%}.food-yellow{bottom:5%;left:8%}.food-main{bottom:10%;right:8%;font-size:5rem}.hero-sticker{position:absolute;bottom:18px;right:0;background:#f8f4de;color:#20563e;border-radius:30px;padding:10px 15px;font-size:.79rem;font-weight:800;transform:rotate(5deg);box-shadow:0 8px 15px #0002}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:-22px 0 24px;position:relative;z-index:2}.features>div{background:#fff;border:1px solid #e6e9dc;border-radius:17px;padding:17px;box-shadow:0 8px 24px #203d2310;display:grid;grid-template-columns:40px 1fr;column-gap:8px;align-items:center}.features span{grid-row:span 2;font-size:1.8rem}.features strong{font-size:.88rem;color:#235540}.features small{color:#65766a;font-size:.74rem}.card{box-shadow:0 7px 26px #253c2410;border:1px solid #e9e9df;border-radius:22px}.section-heading{margin-bottom:23px}.section-kicker{color:#67926c}.section-heading h2{font-size:clamp(1.6rem,3vw,2.15rem);margin:5px 0 5px;letter-spacing:-.045em}.section-heading h2 span{color:#b2c888}.section-heading p,.shopping-heading p{color:#657469;margin:0;font-size:.94rem}.planner-card{scroll-margin-top:15px}.planner-card form{background:#fbfcf8;border:1px solid #edf0e6;border-radius:16px;padding:20px}.planner-card label{font-size:.87rem}.planner-card input,.planner-card select{background:white}.planner-card button[type="submit"]{width:100%;margin:18px 0 0;border-radius:13px;font-size:1.05rem;min-height:54px;background:#176c51}.results-card{scroll-margin-top:12px}.shopping-heading{margin:30px 0 14px;padding-top:24px;border-top:1px solid #e8ece3}.shopping-heading h2{margin:6px 0}.day{background:#f9faf4;border:1px solid #e1e8d8;border-radius:18px;padding:17px}.day h3{display:inline-block;background:#e4eddb;border-radius:30px;padding:7px 15px;font-size:.94rem;color:#285d43}.meal{border-radius:16px;padding:17px;border:1px solid #e9ece3;box-shadow:0 6px 15px #1e40200a}.meal strong{color:#235d43}.meal small{display:block;color:#68786d}.recipe-details summary{background:#edf4e7}.shopping-group{background:#fff;border-radius:16px}.no-print{margin-top:20px}.no-print button{margin-bottom:8px}@media(max-width:700px){header .wrap.hero{grid-template-columns:1fr;padding:28px 20px 36px;gap:0}.hero h1{font-size:3.5rem}.hero-art{min-height:220px}.plate{width:215px}.plate-inner{border-width:9px}.food-piece{font-size:3.3rem}.food-main{font-size:3.6rem}.hero-sticker{right:8%;bottom:0}.features{grid-template-columns:1fr;gap:8px;margin:-14px 0 18px}.features>div{padding:11px 15px;grid-template-columns:36px 1fr}.features span{font-size:1.5rem}.planner-card form{padding:12px}.card{border-radius:18px}.hero-copy>p:not(.hero-lead){max-width:330px}}@media(min-width:701px) and (max-width:900px){.hero-sticker{right:-8px}}@media print{header,.features{display:none!important}.planner-card{display:none!important}.results-card{display:block!important}}
+.recipe-body h4{margin:18px 0 9px;color:#245b43;font-size:1rem}.recipe-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.recipe-meta span{background:#eaf3e6;border-radius:20px;padding:6px 10px;font-size:.8rem;color:#2d634a;font-weight:700}.ingredient-list{padding:0;list-style:none;margin:0}.ingredient-list li{display:flex;justify-content:space-between;gap:12px;padding:9px 4px;border-bottom:1px solid #e8eee5}.ingredient-list li strong{white-space:nowrap;color:#205c43}.preparation-list{padding-left:25px}.preparation-list li{padding:4px 0 9px 5px;line-height:1.6}.preparation-list li::marker{font-weight:800;color:#2a805d}@media print{.recipe-details{display:block!important}.recipe-details .recipe-body{display:block!important}.recipe-details summary{display:none!important}}.favorites-card{scroll-margin-top:15px}.favorite-card{background:#fcfdf9;border:1px solid #e0eadc;border-radius:16px;padding:16px;margin:12px 0}.favorite-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.favorite-top strong{display:block;color:#205c43;font-size:1.04rem}.favorite-top small{display:block;color:#697a6d;margin-top:5px}.favorite-toggle{background:#fff3f3!important;border:1px solid #f0caca;color:#a33248!important;font-size:.84rem;padding:9px 12px;margin:10px 0 8px;box-shadow:none}.favorite-toggle:hover,.favorite-toggle.is-favorite{background:#f9dce2!important}.favorites-empty{text-align:center;background:#f8faf5;border:1px dashed #d3e2d2;border-radius:15px;padding:22px;color:#52745d;font-size:1.1rem}.favorites-empty strong{display:block;color:#2a5941}.favorites-empty p{font-size:.9rem;margin-bottom:0}.meal>.favorite-toggle{display:inline-block}@media print{.favorites-card,.favorite-toggle{display:none!important}}.share-app-strip{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#eaf1dc;border:1px solid #d9e7c9;border-radius:17px;padding:15px 19px;margin:8px 0 20px}.share-app-strip strong,.share-app-strip span{display:block}.share-app-strip strong{color:#205b43}.share-app-strip span{font-size:.85rem;color:#536c57}.share-button{background:#226b4e;color:white}.share-plan{background:#f0f6ec;border:1px solid #dcead6;border-radius:17px;padding:18px;margin:24px 0 14px}.share-plan strong{color:#245a43}.share-plan p{color:#65776a;margin:6px 0 9px;font-size:.88rem}.share-plan button{margin-top:8px}@media(max-width:620px){.share-app-strip{flex-direction:column;align-items:stretch}.share-app-strip button,.share-plan button{width:100%;margin-right:0}}@media print{.share-app-strip,.share-plan{display:none!important}}.feedback-card{scroll-margin-top:20px}.feedback-card form{display:grid;gap:11px}.feedback-card label,.feedback-card legend{font-weight:650;color:#285d46}.feedback-card select,.feedback-card textarea{width:100%;max-width:100%;border:1px solid #cbdccc;border-radius:12px;padding:12px;font:inherit;background:#fff;color:#1e392d}.rating-field{border:1px solid #dce9d7;border-radius:14px;padding:14px;margin:0}.rating-options{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.rating-options label{background:#f1f7ec;border:1px solid #dce9d7;border-radius:10px;padding:9px 11px;font-size:.88rem;cursor:pointer}.rating-options input{accent-color:#267e57}.feedback-submit{justify-self:start}.feedback-direct{font-size:.9rem;color:#58715f}.feedback-direct a{color:#146d52;font-weight:700}@media(max-width:620px){.feedback-submit{width:100%}.rating-options{display:grid;grid-template-columns:1fr 1fr}}@media print{.feedback-card{display:none!important}}</style></head><body><header><div class="wrap hero"><div class="hero-copy"><span class="eyebrow">✦ SEU PLANEJADOR DE REFEIÇÕES</span><h1>Minha <em>Semana.</em></h1><p class="hero-lead">Mais sabor na mesa.<br>Menos preocupação na rotina.</p><p>Cardápios variados, compras organizadas e receitas para facilitar seus dias.</p><a class="hero-link" href="#planejar">Criar meu cardápio <span aria-hidden="true">↗</span></a><span class="version-tag">Versão 6.0 · Sua opinião importa</span></div><div class="hero-art" aria-hidden="true"><div class="plate"><div class="plate-inner"><span class="food-piece food-green">🥦</span><span class="food-piece food-red">🍅</span><span class="food-piece food-yellow">🥕</span><span class="food-piece food-main">🍗</span></div></div><span class="hero-sticker">🍃 Feito para sua rotina</span></div></div></header><main class="wrap"><div class="share-app-strip"><div><strong>💚 Gostou do Minha Semana?</strong><span>Convide alguém para planejar refeições com você.</span></div><button type="button" id="share-app" class="share-button">↗ Compartilhar aplicativo</button></div><div class="features" aria-label="Benefícios"><div><span>📅</span><strong>Planeje seus dias</strong><small>Almoço e jantar sem complicação</small></div><div><span>🥘</span><strong>Receitas variadas</strong><small>De acordo com suas escolhas</small></div><div><span>🛒</span><strong>Compras práticas</strong><small>Lista pronta para conferir</small></div></div><section id="planejar" class="card planner-card"><div class="section-heading"><span class="section-kicker">COMECE POR AQUI</span><h2>Monte seu planejamento <span>✳</span></h2><p>Conte um pouco sobre sua rotina e nós organizamos as refeições.</p></div><form id="form"><div class="grid"><div><label for="people">Quantas pessoas?</label><input id="people" type="number" min="1" max="10" value="2" required></div><div><label for="days">Quantos dias?</label><select id="days"><option value="3">3 dias</option><option value="5" selected>5 dias</option><option value="7">7 dias</option></select></div><div><label for="meals">Refeições por dia</label><select id="meals"><option value="almoco">Almoço</option><option value="jantar">Jantar</option><option value="ambos" selected>Almoço e jantar</option></select></div><div><label for="style">Preferência alimentar</label><select id="style"><option value="todos">Sem preferência</option><option value="tradicional">Tradicional (com carnes)</option><option value="vegetariano">Vegetariana (ovos e laticínios permitidos)</option></select></div><div><label for="budget">Orçamento total (R$)</label><input id="budget" type="number" min="1" step="0.01" value="250" required></div><div><label for="time">Tempo máximo por receita</label><select id="time"><option value="15">15 minutos</option><option value="20">20 minutos</option><option value="30">30 minutos</option><option value="45">45 minutos</option><option value="60" selected>60 minutos</option><option value="90">90 minutos</option><option value="120">120 minutos</option></select></div></div><div><label for="cut">Corte de carne preferido</label><select id="cut"><option value="todos">Qualquer corte</option><optgroup label="Bovinos"><option value="acém">Acém</option><option value="patinho">Patinho</option><option value="músculo">Músculo</option><option value="alcatra">Alcatra</option></optgroup><optgroup label="Frango"><option value="peito de frango">Peito de frango</option><option value="coxa de frango">Coxa de frango</option><option value="sobrecoxa de frango">Sobrecoxa de frango</option></optgroup><optgroup label="Suínos"><option value="lombo suíno">Lombo suíno</option><option value="pernil suíno">Pernil suíno</option><option value="bisteca suína">Bisteca suína</option></optgroup></select></div><label for="protein">Carnes e peixes que deseja incluir</label><select id="protein"><option value="todas">Todas as opções</option><option value="frango">Somente frango</option><option value="bovina">Somente carne bovina</option><option value="suina">Somente carne suína</option><option value="peixe">Somente peixes</option><option value="semcarne">Sem carnes ou peixes</option></select><p class="note">Este filtro funciona junto com a preferência alimentar; receitas vegetarianas continuam disponíveis quando a preferência é “Sem preferência”. Para escolher apenas uma carne, mantenha “Tradicional” ou “Sem preferência”.</p><label for="avoid">Ingredientes a evitar (separe por vírgula)</label><input id="avoid" placeholder="Ex.: cuscuz, ervilha, leite"><p class="note">O corte escolhido só aparece em receitas cadastradas para ele; não substituímos carnes automaticamente, pois o tempo e o preparo mudam. Não indicado para gerenciar alergias, doença celíaca ou dietas terapêuticas: receitas e ingredientes exigem conferência individual.</p><button type="submit">Gerar meu cardápio</button></form></section><section id="favorites-section" class="card favorites-card"><div class="section-heading"><span class="section-kicker">SUAS RECEITAS PREFERIDAS</span><h2>♡ Minhas receitas favoritas</h2><p>Salve e consulte seus pratos preferidos, mesmo sem gerar outro cardápio.</p></div><div id="favorites-list" aria-live="polite"></div></section><section id="output" class="card results-card" hidden aria-live="polite"><div class="section-heading"><span class="section-kicker">SEU CARDÁPIO ESTÁ PRONTO</span><h2>Seu planejamento <span>✳</span></h2><p>Confira as refeições e troque os pratos quando quiser.</p></div><div id="summary"></div><div id="menu"></div><div class="shopping-heading"><span class="section-kicker">TUDO EM UM SÓ LUGAR</span><h2>🛒 Lista de compras</h2><p>Marque os itens conforme colocar no carrinho.</p></div><div id="shopping"></div><div class="share-plan no-print"><div><strong>📲 Compartilhe seu cardápio</strong><p>Envie o resumo das refeições e a lista de compras pelo WhatsApp ou pelo menu de compartilhamento do celular.</p></div><button type="button" id="share-plan" class="share-button">↗ Compartilhar cardápio</button><button type="button" id="share-whatsapp" class="alt">WhatsApp</button></div><div class="no-print"><button id="print">Imprimir / salvar em PDF</button><button id="copy" class="alt">Copiar lista de compras</button><button id="regen" class="alt">Gerar outra combinação</button><button id="save" class="alt">Baixar planejamento (.txt)</button></div></section><section class="card feedback-card" id="opiniao"><div class="section-heading"><span class="section-kicker">VAMOS MELHORAR JUNTOS</span><h2>💬 Ajude a melhorar o Minha Semana</h2><p>Sua opinião nos ajuda a criar receitas e recursos mais úteis. A avaliação é opcional e você decide se quer enviar.</p></div><form id="feedback-form"><fieldset class="rating-field"><legend>Como foi sua experiência?</legend><div class="rating-options"><label><input type="radio" name="rating" value="5" required> ⭐ 5 — Adorei</label><label><input type="radio" name="rating" value="4"> ⭐ 4 — Gostei</label><label><input type="radio" name="rating" value="3"> ⭐ 3 — Regular</label><label><input type="radio" name="rating" value="2"> ⭐ 2 — Pode melhorar</label><label><input type="radio" name="rating" value="1"> ⭐ 1 — Tive dificuldades</label></div></fieldset><label for="feedback-type">Sobre o que você quer falar?</label><select id="feedback-type" required><option value="Sugestão de receita">Sugestão de receita</option><option value="Melhoria do aplicativo">Melhoria do aplicativo</option><option value="Problema encontrado">Problema encontrado</option><option value="Elogio">Elogio</option><option value="Outro assunto">Outro assunto</option></select><label for="feedback-message">Conte sua opinião (opcional)</label><textarea id="feedback-message" rows="4" maxlength="1500" placeholder="O que você mais gostou? O que podemos melhorar?"></textarea><p class="note">Ao clicar em enviar, seu aplicativo de e-mail será aberto com uma mensagem para <strong>minhasemana.receitas@gmail.com</strong>. Revise e confirme o envio por lá. Nenhuma avaliação é armazenada neste site.</p><button type="submit" class="feedback-submit">✉️ Preparar e-mail de avaliação</button></form><p class="feedback-direct">Prefere escrever diretamente? <a href="mailto:minhasemana.receitas@gmail.com?subject=Contato%20-%20Minha%20Semana">Fale com o Minha Semana por e-mail</a>.</p></section><footer>Custos apenas ilustrativos, não preços atualizados de supermercado. As informações ficam neste navegador. Confira a conservação e a segurança dos alimentos antes de preparar ou armazenar refeições.</footer></main><script>
+const R=[
+{name:'Arroz, feijão, frango e cenoura',style:'tradicional',time:50,price:10,items:{'arroz (g)':80,'feijão seco (g)':55,'peito de frango (g)':130,'cenoura (g)':90,'óleo (ml)':8}},
+{name:'Macarrão com carne moída',style:'tradicional',time:35,price:13,items:{'macarrão seco (g)':90,'carne moída (g)':130,'molho de tomate (g)':100,'cebola (g)':30}},
+{name:'Frango com batata e brócolis',style:'tradicional',time:45,price:12,items:{'peito de frango (g)':140,'batata (g)':180,'brócolis (g)':120,'óleo (ml)':8}},
+{name:'Arroz, lentilha e legumes',style:'vegetariano',time:40,price:8,items:{'arroz (g)':80,'lentilha seca (g)':65,'abobrinha (g)':110,'cenoura (g)':80}},
+{name:'Macarrão com grão-de-bico',style:'vegetariano',time:35,price:10,items:{'macarrão seco (g)':90,'grão-de-bico cozido (g)':120,'molho de tomate (g)':100,'cebola (g)':30}},
+{name:'Omelete com arroz e salada',style:'vegetariano',time:25,price:9,items:{'ovo (un)':2,'arroz (g)':75,'tomate (g)':100,'alface (g)':60}},
+{name:'Arroz com ovos e legumes',style:'vegetariano',time:30,price:8,items:{'arroz (g)':85,'ovo (un)':2,'cenoura (g)':75,'abobrinha (g)':100}},
+{name:'Carne moída com arroz e abobrinha',style:'tradicional',time:40,price:12,items:{'carne moída (g)':130,'arroz (g)':85,'abobrinha (g)':130,'cebola (g)':30}},
+{name:'Frango desfiado com macarrão',style:'tradicional',time:55,price:11,items:{'peito de frango (g)':130,'macarrão seco (g)':90,'molho de tomate (g)':90,'cebola (g)':25}},
+{name:'Lentilha com batata e cenoura',style:'vegetariano',time:45,price:8,items:{'lentilha seca (g)':75,'batata (g)':160,'cenoura (g)':100,'cebola (g)':30}},
+{name:'Frango com arroz e abóbora',style:'tradicional',time:45,price:11,items:{'peito de frango (g)':130,'arroz (g)':80,'abóbora (g)':150}},
+{name:'Carne com batata e vagem',style:'tradicional',time:55,price:14,items:{'carne bovina (g)':130,'batata (g)':160,'vagem (g)':100}},
+{name:'Arroz com sardinha e tomate',style:'tradicional',time:25,price:10,items:{'arroz (g)':80,'sardinha (g)':110,'tomate (g)':100}},
+{name:'Frango com cuscuz e legumes',style:'tradicional',time:35,price:10,items:{'peito de frango (g)':120,'flocão de milho (g)':80,'cenoura (g)':90}},
+{name:'Carne moída com purê de batata',style:'tradicional',time:50,price:13,items:{'carne moída (g)':130,'batata (g)':180,'leite (ml)':40}},
+{name:'Frango com lentilha e cenoura',style:'tradicional',time:55,price:12,items:{'peito de frango (g)':120,'lentilha seca (g)':70,'cenoura (g)':100}},
+{name:'Arroz com atum e ervilha',style:'tradicional',time:25,price:11,items:{'arroz (g)':85,'atum (g)':100,'ervilha (g)':90}},
+{name:'Macarrão com frango e abobrinha',style:'tradicional',time:40,price:11,items:{'macarrão seco (g)':90,'peito de frango (g)':120,'abobrinha (g)':110}},
+{name:'Grão-de-bico com abóbora',style:'vegetariano',time:45,price:9,items:{'grão-de-bico cozido (g)':150,'abóbora (g)':180,'cebola (g)':30}},
+{name:'Arroz com feijão e couve',style:'vegetariano',time:50,price:7,items:{'arroz (g)':85,'feijão seco (g)':60,'couve (g)':90}},
+{name:'Cuscuz com ovos e tomate',style:'vegetariano',time:25,price:8,items:{'flocão de milho (g)':90,'ovo (un)':2,'tomate (g)':90}},
+{name:'Macarrão com lentilha ao molho',style:'vegetariano',time:45,price:9,items:{'macarrão seco (g)':90,'lentilha seca (g)':70,'molho de tomate (g)':100}},
+{name:'Batata assada com grão-de-bico',style:'vegetariano',time:50,price:9,items:{'batata (g)':200,'grão-de-bico cozido (g)':130,'cenoura (g)':90}},
+{name:'Arroz com ervilha e ovo',style:'vegetariano',time:30,price:8,items:{'arroz (g)':85,'ervilha (g)':100,'ovo (un)':2}},
+{name:'Lentilha com abóbora e couve',style:'vegetariano',time:45,price:8,items:{'lentilha seca (g)':75,'abóbora (g)':150,'couve (g)':90}},
+{name:'Omelete com batata e brócolis',style:'vegetariano',time:35,price:9,items:{'ovo (un)':2,'batata (g)':160,'brócolis (g)':100}},
+{name:'Arroz com tofu e legumes',style:'vegetariano',time:35,price:12,items:{'arroz (g)':80,'tofu (g)':140,'cenoura (g)':90}},
+{name:'Grão-de-bico com arroz e tomate',style:'vegetariano',time:40,price:9,items:{'grão-de-bico cozido (g)':140,'arroz (g)':80,'tomate (g)':100}},
+{name:'Macarrão com brócolis e queijo',style:'vegetariano',time:30,price:10,items:{'macarrão seco (g)':90,'brócolis (g)':120,'queijo (g)':40}},
+{name:'Arroz com lentilha e cenoura',style:'vegetariano',time:40,price:8,items:{'arroz (g)':80,'lentilha seca (g)':70,'cenoura (g)':100}},
+{name:'Lombo suíno com arroz e cenoura',style:'tradicional',protein:'suina',time:50,price:13,items:{'lombo suíno (g)':140,'arroz (g)':80,'cenoura (g)':110}},
+{name:'Pernil suíno em cubos com batata',style:'tradicional',protein:'suina',time:60,price:12,items:{'pernil suíno (g)':150,'batata (g)':180,'cebola (g)':35}},
+{name:'Bisteca suína com couve e arroz',style:'tradicional',protein:'suina',time:40,price:13,items:{'bisteca suína (g)':160,'couve (g)':90,'arroz (g)':80}},
+{name:'Tilápia grelhada com purê de batata',style:'tradicional',protein:'peixe',time:40,price:16,items:{'filé de tilápia (g)':150,'batata (g)':180,'leite (ml)':40}},
+{name:'Peixe ensopado com tomate e arroz',style:'tradicional',protein:'peixe',time:45,price:15,items:{'filé de peixe (g)':150,'tomate (g)':110,'arroz (g)':80,'cebola (g)':30}},
+{name:'Sardinha com batata e salada',style:'tradicional',protein:'peixe',time:30,price:12,items:{'sardinha (g)':140,'batata (g)':160,'alface (g)':60}},
+{name:'Picadinho bovino com abóbora',style:'tradicional',protein:'bovina',time:55,price:15,items:{'carne bovina (g)':140,'abóbora (g)':180,'cebola (g)':35}},
+{name:'Bife acebolado com arroz e feijão',style:'tradicional',protein:'bovina',time:45,price:16,items:{'bife bovino (g)':140,'cebola (g)':50,'arroz (g)':80,'feijão seco (g)':55}},
+{name:'Almôndegas bovinas com macarrão',style:'tradicional',protein:'bovina',time:55,price:14,items:{'carne moída (g)':140,'macarrão seco (g)':90,'molho de tomate (g)':100}},
+{name:'Sobrecoxa de frango com mandioca',style:'tradicional',protein:'frango',time:60,price:12,items:{'sobrecoxa de frango (g)':170,'mandioca (g)':180,'cebola (g)':30}},
+{name:'Frango em cubos com arroz e vagem',style:'tradicional',protein:'frango',time:40,price:12,items:{'peito de frango (g)':140,'arroz (g)':80,'vagem (g)':110}},
+{name:'Frango ao molho de tomate com polenta',style:'tradicional',protein:'frango',time:50,price:11,items:{'peito de frango (g)':140,'fubá (g)':80,'molho de tomate (g)':100}}
+];
+
+// Refeições rápidas: acompanhamentos previamente cozidos são identificados explicitamente.
+R.push(
+{name:'Acém em tiras finas na frigideira com cuscuz e tomate',style:'tradicional',protein:'bovina',time:30,price:15,quickCut:'acém',items:{'acém (g)':140,'flocão de milho (g)':85,'tomate (g)':110,'cebola (g)':25,'óleo (ml)':8}},
+{name:'Acém moído refogado com cuscuz e cenoura ralada',style:'tradicional',protein:'bovina',time:25,price:14,quickCut:'acém',items:{'acém moído (g)':140,'flocão de milho (g)':85,'cenoura (g)':80,'cebola (g)':25}},
+{name:'Patinho em tiras com cuscuz e salada',style:'tradicional',protein:'bovina',time:25,price:17,quickCut:'patinho',items:{'patinho (g)':140,'flocão de milho (g)':85,'tomate (g)':90,'alface (g)':60}},
+{name:'Alcatra em tiras com cuscuz e tomate',style:'tradicional',protein:'bovina',time:25,price:20,quickCut:'alcatra',items:{'alcatra (g)':140,'flocão de milho (g)':85,'tomate (g)':100}},
+{name:'Peito de frango em tiras com cuscuz e tomate',style:'tradicional',protein:'frango',time:25,price:13,quickCut:'peito de frango',items:{'peito de frango (g)':140,'flocão de milho (g)':85,'tomate (g)':100}},
+{name:'Lombo suíno em tiras com cuscuz e salada',style:'tradicional',protein:'suina',time:30,price:15,quickCut:'lombo suíno',items:{'lombo suíno (g)':140,'flocão de milho (g)':85,'alface (g)':60,'tomate (g)':90}}
+);
+
+// Receitas adicionais com diferentes bases e acompanhamentos.
+R.push(
+{name:'Frango grelhado com quinoa e abobrinha',style:'tradicional',protein:'frango',time:35,price:15,items:{'peito de frango (g)':140,'quinoa seca (g)':75,'abobrinha (g)':120}},
+{name:'Frango em tiras com batata-doce e tomate',style:'tradicional',protein:'frango',time:40,price:13,items:{'peito de frango (g)':140,'batata-doce (g)':180,'tomate (g)':100}},
+{name:'Peixe grelhado com quinoa e cenoura',style:'tradicional',protein:'peixe',time:35,price:17,items:{'filé de peixe (g)':150,'quinoa seca (g)':75,'cenoura (g)':100}},
+{name:'Sardinha com arroz integral e pepino',style:'tradicional',protein:'peixe',time:45,price:12,items:{'sardinha (g)':140,'arroz integral (g)':80,'pepino (g)':100}},
+{name:'Bisteca com purê de mandioquinha e couve',style:'tradicional',protein:'suina',time:45,price:16,items:{'bisteca suína (g)':160,'mandioquinha (g)':180,'couve (g)':90}},
+{name:'Lombo suíno com quinoa e repolho',style:'tradicional',protein:'suina',time:45,price:16,items:{'lombo suíno (g)':140,'quinoa seca (g)':75,'repolho (g)':110}},
+{name:'Omelete com espinafre e batata-doce',style:'vegetariano',time:30,price:10,items:{'ovo (un)':2,'espinafre (g)':90,'batata-doce (g)':170}},
+{name:'Quinoa com tofu e berinjela',style:'vegetariano',time:35,price:13,items:{'quinoa seca (g)':80,'tofu (g)':140,'berinjela (g)':120}},
+{name:'Arroz integral com abóbora e ovos',style:'vegetariano',time:45,price:10,items:{'arroz integral (g)':80,'abóbora (g)':160,'ovo (un)':2}},
+{name:'Macarrão com berinjela e tomate',style:'vegetariano',time:35,price:10,items:{'macarrão seco (g)':90,'berinjela (g)':140,'tomate (g)':110}},
+{name:'Batata-doce com grão-de-bico e espinafre',style:'vegetariano',time:40,price:11,items:{'batata-doce (g)':180,'grão-de-bico cozido (g)':130,'espinafre (g)':90}},
+{name:'Arroz com abobrinha e cogumelos',style:'vegetariano',time:35,price:12,items:{'arroz (g)':80,'abobrinha (g)':120,'cogumelos (g)':110}}
+);
+const FOOD_GROUPS=[
+['cuscuz','flocão','flocao','flocão de milho','flocao de milho','flocos de milho','cuscuz de milho','farinha de milho para cuscuz'],
+['arroz','arroz branco','arroz integral'],
+['macarrão','massa','espaguete','penne'],
+['mandioca','aipim','macaxeira'],
+['batata doce','batata-doce'],
+['grão de bico','grão-de-bico'],
+['ervilha','ervilhas'],
+['frango','peito de frango','coxa de frango','sobrecoxa de frango'],
+['porco','suíno','suina','lombo suíno','pernil suíno','bisteca suína'],
+['ovo','ovos'],
+['leite','laticínios','laticinios','queijo'],
+['peixe','tilápia','sardinha','atum']
+];
+function normalizedFood(s){return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[-_]/g,' ').replace(/\s+/g,' ').trim();}
+function avoidedTerms(value){return value.split(/[,;\n]+/).map(v=>normalizedFood(v).replace(/^(sem|tirar|retirar|excluir|nao quero|não quero)\s+/,'').trim()).filter(Boolean);}
+function recipeHasAvoided(r,avoid){
+ const content=normalizedFood([r.name,...Object.keys(r.items),...(r.tags||[])].join(' | '));
+ return avoid.some(term=>{
+  const group=FOOD_GROUPS.find(g=>g.some(x=>normalizedFood(x)===term));
+  return (group||[term]).some(x=>content.includes(normalizedFood(x)));
+ });
+}
+function verifyPlan(schedule,shopping,avoid){
+ if(schedule.some(day=>day.some(entry=>recipeHasAvoided(entry.r,avoid))))return false;
+ const shoppingNames=Object.keys(shopping);
+ return !shoppingNames.some(name=>recipeHasAvoided({name,items:{}},avoid));
+}
+
+R.push(
+{name:'Alcatra grelhada com arroz e cenoura',style:'tradicional',protein:'bovina',time:35,price:21,quickCut:'alcatra',items:{'alcatra (g)':150,'arroz (g)':80,'cenoura (g)':100,'óleo (ml)':8}},
+{name:'Alcatra em tiras com batata e abobrinha',style:'tradicional',protein:'bovina',time:40,price:22,quickCut:'alcatra',items:{'alcatra (g)':150,'batata (g)':180,'abobrinha (g)':120,'óleo (ml)':8}},
+{name:'Alcatra na frigideira com macarrão e tomate',style:'tradicional',protein:'bovina',time:35,price:22,quickCut:'alcatra',items:{'alcatra (g)':150,'macarrão seco (g)':90,'tomate (g)':110,'óleo (ml)':8}},
+{name:'Alcatra com purê de mandioquinha e espinafre',style:'tradicional',protein:'bovina',time:50,price:24,quickCut:'alcatra',items:{'alcatra (g)':150,'mandioquinha (g)':190,'espinafre (g)':90,'óleo (ml)':8}},
+{name:'Alcatra com quinoa e brócolis',style:'tradicional',protein:'bovina',time:40,price:25,quickCut:'alcatra',items:{'alcatra (g)':150,'quinoa seca (g)':75,'brócolis (g)':110,'óleo (ml)':8}},
+{name:'Alcatra acebolada com arroz e abóbora',style:'tradicional',protein:'bovina',time:40,price:22,quickCut:'alcatra',items:{'alcatra (g)':150,'cebola (g)':35,'arroz (g)':80,'abóbora (g)':140}}
+);
+R.push(
+{name:'Acém moído com arroz e cenoura',style:'tradicional',protein:'bovina',time:35,price:15,quickCut:'acém',items:{'acém moído (g)':145,'arroz (g)':80,'cenoura (g)':100}},
+{name:'Acém moído com macarrão e tomate',style:'tradicional',protein:'bovina',time:35,price:16,quickCut:'acém',items:{'acém moído (g)':145,'macarrão seco (g)':90,'tomate (g)':100}},
+{name:'Acém moído com purê de batata e abobrinha',style:'tradicional',protein:'bovina',time:45,price:16,quickCut:'acém',items:{'acém moído (g)':145,'batata (g)':190,'abobrinha (g)':110}},
+{name:'Patinho em tiras com arroz e brócolis',style:'tradicional',protein:'bovina',time:35,price:18,quickCut:'patinho',items:{'patinho (g)':145,'arroz (g)':80,'brócolis (g)':120}},
+{name:'Patinho em tiras com batata e cenoura',style:'tradicional',protein:'bovina',time:40,price:19,quickCut:'patinho',items:{'patinho (g)':145,'batata (g)':180,'cenoura (g)':110}},
+{name:'Patinho moído com macarrão e abobrinha',style:'tradicional',protein:'bovina',time:40,price:18,quickCut:'patinho',items:{'patinho moído (g)':145,'macarrão seco (g)':85,'abobrinha (g)':110}},
+{name:'Peito de frango com arroz e abóbora',style:'tradicional',protein:'frango',time:40,price:13,quickCut:'peito de frango',items:{'peito de frango (g)':145,'arroz (g)':80,'abóbora (g)':150}},
+{name:'Peito de frango com batata e vagem',style:'tradicional',protein:'frango',time:40,price:14,quickCut:'peito de frango',items:{'peito de frango (g)':145,'batata (g)':180,'vagem (g)':110}},
+{name:'Peito de frango com macarrão e brócolis',style:'tradicional',protein:'frango',time:35,price:14,quickCut:'peito de frango',items:{'peito de frango (g)':145,'macarrão seco (g)':85,'brócolis (g)':110}},
+{name:'Lombo suíno com arroz e cenoura',style:'tradicional',protein:'suina',time:40,price:16,quickCut:'lombo suíno',items:{'lombo suíno (g)':145,'arroz (g)':80,'cenoura (g)':110}},
+{name:'Lombo suíno com batata e repolho',style:'tradicional',protein:'suina',time:45,price:17,quickCut:'lombo suíno',items:{'lombo suíno (g)':145,'batata (g)':190,'repolho (g)':100}},
+{name:'Lombo suíno com macarrão e abobrinha',style:'tradicional',protein:'suina',time:40,price:17,quickCut:'lombo suíno',items:{'lombo suíno (g)':145,'macarrão seco (g)':85,'abobrinha (g)':110}}
+);
+for(const r of R){if(r.protein||r.style==='vegetariano')continue;const keys=Object.keys(r.items).join(' ').toLowerCase();r.protein=/frango/.test(keys)?'frango':/carne|bife/.test(keys)?'bovina':/sardinha|atum|peixe/.test(keys)?'peixe':'outra';}
+const CUT_TYPES={'acém':'bovina','patinho':'bovina','músculo':'bovina','alcatra':'bovina','peito de frango':'frango','coxa de frango':'frango','sobrecoxa de frango':'frango','lombo suíno':'suina','pernil suíno':'suina','bisteca suína':'suina'};
+function withCut(r,cut){return r;}
+function cutMatches(r,cut){
+ if(cut==='todos')return true;
+ if(r.style==='vegetariano')return false;
+ if(r.quickCut)return r.quickCut===cut;
+ const keys=Object.keys(r.items).join(' ').toLocaleLowerCase('pt-BR');
+ return keys.includes(cut.toLocaleLowerCase('pt-BR'));
+}
+function mainBase(r){
+ const text=normalizedFood([r.name,...Object.keys(r.items)].join(' '));
+ if(/cuscuz|flocao/.test(text))return 'cuscuz';
+ for(const [base,terms] of [['arroz',['arroz']],['macarrao',['macarrao']],['batata',['batata','mandioquinha']],['mandioca',['mandioca','aipim']],['quinoa',['quinoa']],['feijao',['feijao','lentilha','grao de bico']]]){
+  if(terms.some(t=>text.includes(t)))return base;
+ }
+ return 'outros';
+}
+function chooseVariedRecipe(pool,schedule,entries,seed,index){
+ const previous=schedule.flat().concat(entries).map(e=>e.r);
+ const lastBases=previous.slice(-3).map(mainBase);
+ const uses=new Map();
+ for(const r of previous)uses.set(r.name,(uses.get(r.name)||0)+1);
+ const ranked=pool.map((r,i)=>{
+  const base=mainBase(r),repeats=uses.get(r.name)||0;
+  const baseCount=previous.filter(p=>mainBase(p)===base).length;
+  const consecutive=lastBases.length&&lastBases[lastBases.length-1]===base?1:0;
+  return {r,score:repeats*100+baseCount*9+consecutive*40+(base==='cuscuz'?14:0),tie:(i+pool.length-(index+seed)%pool.length)%pool.length};
+ }).sort((a,b)=>a.score-b.score||a.tie-b.tie);
+ return ranked[0].r;
+}
+function recipeCard(r,people){
+ const foods=Object.keys(r.items).map(k=>k.split(' (')[0]);
+ const has=(term)=>foods.some(k=>normalizedFood(k).includes(normalizedFood(term)));
+ const steps=[];
+ const name=normalizedFood(r.name);
+ const isBaked=/assad|forno|gratinad/.test(name);
+ const isSoup=/sopa|caldo|ensopad/.test(name);
+ const isStew=/refogad|cozid|panela|picadinh/.test(name);
+ const add=t=>steps.push(t);
+ const protein=foods.filter(k=>/frango|carne|acem|patinho|alcatra|musculo|bovina|suino|lombo|pernil|bisteca|peixe|tilapia|sardinha|atum|ovo|tofu/i.test(normalizedFood(k)));
+ add('Separe e confira os ingredientes indicados abaixo. Lave os vegetais em água corrente e higienize os que serão consumidos crus.');
+ if(has('feijão seco'))add('Se o feijão ainda estiver cru, deixe de molho conforme a variedade, descarte a água e cozinhe em água nova até ficar macio; pode ser necessário começar bem antes do restante da receita.');
+ if(has('grão-de-bico cozido'))add('Escorra o grão-de-bico já cozido. Se estiver usando grãos secos, cozinhe-os previamente; esse preparo não está incluído no tempo estimado.');
+ if(has('lentilha seca'))add('Lave a lentilha e cozinhe em água até ficar macia, geralmente por cerca de 20 a 30 minutos; escorra se necessário.');
+ if(has('arroz'))add('Lave o arroz, se desejar, e cozinhe em água conforme a variedade e a quantidade indicada na embalagem, até absorver o líquido e ficar macio.');
+ if(has('quinoa'))add('Lave a quinoa em peneira fina e cozinhe em água até os grãos ficarem macios e soltinhos.');
+ if(has('macarrão seco'))add('Ferva água em uma panela, acrescente o macarrão e cozinhe pelo tempo indicado na embalagem. Escorra, reservando um pouco da água do cozimento se precisar ajustar o molho.');
+ if(has('flocão de milho'))add('Umedeça o flocão de milho gradualmente com água, deixe hidratar por cerca de 10 minutos e cozinhe na cuscuzeira até ficar macio; confira as proporções na embalagem.');
+ if(has('batata')||has('mandioca')||has('mandioquinha')||has('abóbora')){
+  const roots=foods.filter(k=>/batata|mandioca|mandioquinha|abóbora/i.test(k)).join(', ');
+  if(isBaked)add('Corte '+roots+' em pedaços semelhantes e asse em forno preaquecido a aproximadamente 200 °C até dourar e amaciar; vire na metade do tempo.');
+  else add('Descasque quando necessário, corte '+roots+' em pedaços semelhantes e cozinhe em água até ficarem macios. Escorra.');
+ }
+ if(has('cenoura')||has('abobrinha')||has('brócolis')||has('vagem')||has('chuchu')||has('berinjela')||has('couve')||has('espinafre')||has('repolho')||has('ervilha')||has('pimentão')){
+  const veg=foods.filter(k=>/cenoura|abobrinha|brócolis|vagem|chuchu|berinjela|couve|espinafre|repolho|ervilha|pimentão/i.test(k)).join(', ');
+  add('Corte '+veg+' em pedaços adequados. Refogue com um pouco de água ou com a gordura da receita, quando houver, ou cozinhe no vapor até atingir a textura desejada; coloque as folhas por último.');
+ }
+ if(has('cebola'))add('Pique a cebola e refogue até ficar translúcida, usando a gordura prevista na receita ou um pouco de água.');
+ if(has('acém moído')||has('carne moída'))add('Acrescente a carne moída à panela quente, solte os pedaços com uma colher e cozinhe, mexendo, até perder a cor crua e ficar completamente cozida.');
+ else if(r.quickCut==='acém')add('Corte o acém em tiras muito finas, contra as fibras. Doure em pequenas porções e termine o cozimento com um pouco de água, se necessário; a maciez varia e pode exigir mais tempo que o estimado.');
+ else if(protein.some(k=>/acém|músculo/i.test(k)))add('Corte a carne em cubos pequenos, doure na panela e cozinhe com água suficiente, tampada ou na pressão conforme o corte, até ficar macia. Cortes mais firmes podem exigir tempo adicional.');
+ else if(protein.some(k=>/carne|patinho|alcatra|bovina|bife/i.test(k)))add('Corte a carne bovina em bifes ou tiras compatíveis com o prato e doure em frigideira quente, virando para cozinhar por igual. Se o corte for firme, acrescente água e cozinhe até amaciar.');
+ if(protein.some(k=>/frango/i.test(k))){
+  if(/desfiad/.test(name))add('Cozinhe o frango até estar completamente cozido no centro; desfie com dois garfos e reserve para misturar aos demais ingredientes.');
+  else if(isSoup||isStew)add('Corte o frango em pedaços uniformes, refogue e cozinhe com um pouco de água até ficar completamente cozido no centro.');
+  else add('Corte o frango em porções semelhantes e doure em frigideira ou asse até ficar completamente cozido no centro, sem partes cruas.');
+ }
+ if(protein.some(k=>/suíno|lombo|pernil|bisteca/i.test(k)))add('Doure a carne suína e continue o cozimento, virando quando necessário, até atingir uma temperatura interna segura; use termômetro culinário sempre que possível.');
+ if(protein.some(k=>/peixe|tilápia/i.test(k)))add('Cozinhe ou grelhe o peixe com cuidado para não desmanchar, até ficar opaco e se separar facilmente em lascas; verifique o cozimento seguro.');
+ if(protein.some(k=>/sardinha|atum/i.test(k)))add('Se usar sardinha ou atum enlatado, escorra e acrescente ao final apenas para aquecer; se for peixe fresco, cozinhe completamente antes de servir.');
+ if(has('tofu'))add('Escorra o tofu, corte em cubos e doure em frigideira, virando para ganhar cor de todos os lados.');
+ if(has('ovo')){
+  if(/omelete/.test(name))add('Bata os ovos com um garfo, misture os vegetais já preparados que fazem parte da receita e cozinhe em frigideira antiaderente, tampada, virando se necessário, até firmar completamente.');
+  else add('Prepare os ovos em frigideira ou panela, conforme o prato, até claras e gemas atingirem o ponto seguro de cozimento.');
+ }
+ if(has('molho de tomate'))add('Aqueça o molho de tomate em uma panela. Junte a proteína ou os vegetais preparados e misture até incorporar; ajuste a consistência com um pouco de água, se necessário.');
+ if(has('leite')&&/purê/.test(name))add('Amasse os vegetais cozidos indicados para o purê e misture o leite aos poucos, em fogo baixo, até ficar cremoso.');
+ if(has('tomate')||has('alface')||has('pepino')||has('rúcula'))add('Corte os vegetais frescos já higienizados e monte a salada ou adicione-os ao prato conforme o nome da receita.');
+ if(isSoup)add('Reúna os ingredientes cozidos na panela, adicione água suficiente para a consistência desejada e deixe apurar por alguns minutos.');
+ else if(/macarrão|massa/.test(name)&&has('macarrão seco'))add('Misture o macarrão cozido ao molho e aos ingredientes preparados, envolvendo delicadamente.');
+ else if(/arroz com/.test(name)&&has('arroz'))add('Incorpore os ingredientes preparados ao arroz, misture delicadamente e aqueça por mais um ou dois minutos.');
+ else if(/cuscuz com/.test(name)&&has('flocão de milho'))add('Solte o cuscuz com um garfo e sirva com os ingredientes preparados.');
+ else add('Monte o prato com os componentes preparados, combinando-os conforme a descrição da receita.');
+ add('Sirva em seguida. Se desejar temperar, utilize apenas temperos compatíveis com suas restrições alimentares; ingredientes extras não estão incluídos na lista de compras.');
+ const ingredients=Object.entries(r.items).map(([k,q])=>{
+  const unit=k.match(/\(([^)]+)\)/)?.[1]||'';
+  const amount=Math.round(q*people*100)/100;
+  return '<li><span>'+esc(k.split(' (')[0])+'</span><strong>'+esc(String(amount).replace('.',','))+' '+esc(unit)+'</strong></li>';
+ }).join('');
+ return '<details class="recipe-details"><summary>👩‍🍳 Ver ingredientes e preparo passo a passo</summary><div class="recipe-body"><div class="recipe-meta"><span>⏱️ Tempo estimado: '+esc(r.time)+' min</span><span>🍽️ '+people+' pessoa(s)</span></div><h4>Ingredientes e quantidades</h4><ul class="ingredient-list">'+ingredients+'</ul><h4>Como preparar</h4><ol class="preparation-list">'+steps.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ol><p class="note">Orientações adaptadas aos ingredientes cadastrados; não são receitas testadas individualmente. Tempos podem aumentar com cortes firmes, grãos secos ou forno. Confira o cozimento seguro e não acrescente ingredientes excluídos.</p></div></details>';
+}
+const $=id=>document.getElementById(id);let last=null,seed=0;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const PLAN_STORAGE_KEY='minhaSemanaPlanoSalvoV1';
+function persistPlan(){
+ if(!last)return;
+ try{
+  const data={people:last.people,days:last.days,budget:last.budget,avoid:last.avoid,recipeNames:last.schedule.map(day=>day.map(e=>({slot:e.slot,name:e.r.name}))),savedAt:new Date().toISOString()};
+  localStorage.setItem(PLAN_STORAGE_KEY,JSON.stringify(data));
+ }catch(e){console.warn('Não foi possível salvar o cardápio neste navegador.',e);}
+}
+function restorePlan(){
+ try{
+  const raw=localStorage.getItem(PLAN_STORAGE_KEY);
+  if(!raw)return false;
+  const data=JSON.parse(raw);
+  if(!data||!Number.isInteger(data.people)||data.people<1||data.people>10||!Array.isArray(data.recipeNames)||!Array.isArray(data.avoid))return false;
+  const byName=new Map(R.map(r=>[r.name,r]));
+  const schedule=data.recipeNames.map(day=>{
+   if(!Array.isArray(day)||!day.length)throw Error('Dia inválido');
+   return day.map(entry=>{
+    const r=byName.get(entry.name);
+    if(!r||recipeHasAvoided(r,data.avoid))throw Error('Receita indisponível');
+    return {slot:entry.slot,r};
+   });
+  });
+  if(!schedule.length||schedule.length>7)return false;
+  const shopping={},total=schedule.flat().reduce((sum,e)=>{
+   for(const [k,q] of Object.entries(e.r.items))shopping[k]=(shopping[k]||0)+q*data.people;
+   return sum+e.r.price*data.people;
+  },0);
+  if(!verifyPlan(schedule,shopping,data.avoid))return false;
+  last={people:data.people,days:schedule.length,budget:Number(data.budget)||0,total,schedule,shopping,avoid:data.avoid,pool:[],swapIndex:0};
+  // Recria opções de troca com as preferências salvas, sem depender de novos filtros.
+  const style=$('style').value,cut=$('cut').value,protein=$('protein').value,time=+$('time').value;
+  last.pool=R.filter(r=>cutMatches(r,cut)&&(style==='todos'||r.style===style)&&(r.style==='vegetariano'||protein==='todas'||(protein!=='semcarne'&&r.protein===protein))&&r.time<=time&&!recipeHasAvoided(r,data.avoid)).map(r=>withCut(r,cut));
+  renderPlan();
+  return true;
+ }catch(e){console.warn('Cardápio salvo não pôde ser recuperado.',e);return false;}
+}
+const SHOP_CHECK_KEY='minhaSemanaComprasMarcadasV1';
+function shoppingCategory(name){
+ const n=normalizedFood(name);
+ if(/frango|carne|acem|patinho|alcatra|musculo|bovina|suino|lombo|pernil|bisteca|peixe|tilapia|sardinha|atum/.test(n))return 'Carnes e peixes';
+ if(/alface|rucula|espinafre|couve|brocolis|repolho|salsa|coentro/.test(n))return 'Verduras';
+ if(/cenoura|batata|abobora|abobrinha|tomate|cebola|ervilha|vagem|berinjela|chuchu|mandioca|mandioquinha|pimentao|beterraba|pepino/.test(n))return 'Legumes e hortaliças';
+ if(/arroz|feijao|lentilha|grao de bico|quinoa|macarrao|farinha|flocao|cuscuz|aveia/.test(n))return 'Grãos, massas e cereais';
+ if(/ovo|leite|queijo|iogurte|manteiga/.test(n))return 'Ovos e laticínios';
+ return 'Mercearia e outros';
+}
+function checkedShopping(){
+ try{const x=JSON.parse(localStorage.getItem(SHOP_CHECK_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{};}catch(e){return {};}
+}
+function renderShopping(){
+ if(!last)return;
+ const checks=checkedShopping();
+ const groups={};
+ for(const [k,q] of Object.entries(last.shopping)){
+  const cat=shoppingCategory(k);
+  (groups[cat]||(groups[cat]=[])).push([k,q]);
+ }
+ const order=['Carnes e peixes','Verduras','Legumes e hortaliças','Grãos, massas e cereais','Ovos e laticínios','Mercearia e outros'];
+ const all=Object.keys(last.shopping),done=all.filter(k=>checks[k]).length;
+ $('shopping').innerHTML=`<p class="note"><strong>${done} de ${all.length} ingredientes marcados como comprados</strong></p>`+order.filter(cat=>groups[cat]).map(cat=>`<section class="shopping-group"><h3>${cat}</h3>${groups[cat].sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([k,q])=>`<label class="shopping-item"><input type="checkbox" class="shopping-check" data-item="${esc(k)}" ${checks[k]?'checked':''}><span ${checks[k]?'style="text-decoration:line-through;opacity:.65"':''}>${esc(k.replace(/ \(.+\)$/,''))} — ${q} ${esc(k.match(/\((.+)\)$/)?.[1]||'')}</span></label>`).join('')}</section>`).join('')+'<p class="note">Quantidades aproximadas por porção. Ajuste conforme necessidades reais e tamanho das embalagens.</p>';
+}
+$('shopping').addEventListener('change',e=>{
+ if(!e.target.classList.contains('shopping-check'))return;
+ const checks=checkedShopping();checks[e.target.dataset.item]=e.target.checked;
+ try{localStorage.setItem(SHOP_CHECK_KEY,JSON.stringify(checks));}catch(err){}
+ renderShopping();
+});
+
+const FAVORITES_KEY='minhaSemanaFavoritosV1';
+function getFavorites(){
+ try{const data=JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]');return Array.isArray(data)?data.filter(n=>typeof n==='string'):[];}catch(e){return [];}
+}
+function saveFavorites(names){
+ try{localStorage.setItem(FAVORITES_KEY,JSON.stringify(names));return true;}catch(e){alert('Não foi possível salvar favoritos neste navegador.');return false;}
+}
+function favoriteButton(name){
+ const saved=getFavorites().includes(name);
+ return '<button type="button" class="favorite-toggle'+(saved?' is-favorite':'')+'" data-recipe="'+esc(name)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Remover dos favoritos: ':'Salvar nos favoritos: ')+esc(name)+'">'+(saved?'♥ Salvo':'♡ Favoritar')+'</button>';
+}
+function renderFavorites(){
+ const names=getFavorites();
+ const avoid=avoidedTerms($('avoid').value);
+ const recipes=names.map(n=>R.find(r=>r.name===n)).filter(Boolean);
+ const list=$('favorites-list');
+ if(!recipes.length){list.innerHTML='<div class="favorites-empty">♡ <strong>Nenhuma receita favorita ainda.</strong><p>Gere um cardápio e toque em “♡ Favoritar” nos pratos de que gostar.</p></div>';return;}
+ list.innerHTML='<p class="note">'+recipes.length+' receita(s) salva(s) neste navegador.</p>'+recipes.map(r=>{
+  const blocked=recipeHasAvoided(r,avoid);
+  return '<article class="favorite-card"><div class="favorite-top"><div><strong>'+esc(r.name)+'</strong><small>⏱️ '+r.time+' min · Custo ilustrativo: R$ '+r.price.toFixed(2).replace('.',',')+' por pessoa</small></div>'+favoriteButton(r.name)+'</div>'+(blocked?'<p class="warn">Esta receita contém um ingrediente que você indicou para evitar. O preparo está oculto enquanto essa exclusão estiver ativa.</p>':recipeCard(r,Math.max(1,Math.min(10,Number($('people').value)||2))))+'</article>';
+ }).join('');
+}
+function toggleFavorite(name){
+ if(!R.some(r=>r.name===name)){alert('Receita não encontrada.');return;}
+ const names=getFavorites();
+ const next=names.includes(name)?names.filter(n=>n!==name):[...names,name];
+ if(saveFavorites(next)){renderFavorites();if(last)renderPlan();}
+}
+document.addEventListener('click',e=>{const btn=e.target.closest('.favorite-toggle');if(btn)toggleFavorite(btn.dataset.recipe);});
+$('avoid').addEventListener('input',renderFavorites);
+$('people').addEventListener('change',renderFavorites);
+function renderPlan(){
+ if(!last)return;
+ const {people,days,budget,total,schedule,shopping,avoid}=last;
+ $('output').hidden=false;
+ $('summary').innerHTML=`<p class="note"><strong>Ingredientes excluídos:</strong> ${avoid.length?avoid.map(esc).join(', '):'nenhum'}</p><p><span class="pill">${people} pessoa(s)</span> <span class="pill">${days} dia(s)</span></p><p><strong>Custo ilustrativo total: R$ ${total.toFixed(2).replace('.',',')}</strong> | Orçamento: R$ ${budget.toFixed(2).replace('.',',')}</p><p class="${total>budget?'warn':'ok'}">${total>budget?'A combinação ultrapassa o orçamento estimado.':'A combinação está dentro do orçamento estimado.'}</p>`;
+ $('menu').innerHTML=schedule.map((entries,d)=>`<div class="day"><h3>Dia ${d+1}</h3>${entries.map((e,j)=>`<div class="meal"><strong>${e.slot}:</strong> ${esc(e.r.name)} <small>(${e.r.time} min, R$ ${(e.r.price*people).toFixed(2).replace('.',',')})</small><div><button type="button" class="swap-recipe" data-day="${d}" data-slot="${j}" style="margin:8px 0;padding:8px 12px">Trocar receita</button></div>${favoriteButton(e.r.name)}${recipeCard(e.r,people)}</div>`).join('')}</div>`).join('');
+ renderShopping();
+}
+function swapRecipe(day,slot){
+ if(!last||!last.schedule[day]||!last.schedule[day][slot])return;
+ const current=last.schedule[day][slot].r;
+ const used=last.schedule.flat().map(e=>e.r.name);
+ const options=last.pool.filter(r=>r.name!==current.name&&!recipeHasAvoided(r,last.avoid));
+ if(!options.length){alert('Não há outra receita compatível com os filtros atuais.');return;}
+ const alternative=options.map((r,i)=>({r,i,score:(used.includes(r.name)?100:0)+used.filter(n=>n===r.name).length*10+(mainBase(r)===mainBase(current)?6:0)+(mainBase(r)==='cuscuz'?10:0)})).sort((a,b)=>a.score-b.score||((a.i+last.swapIndex)%options.length)-((b.i+last.swapIndex)%options.length))[0].r;
+ const next=last.schedule.map(dayEntries=>dayEntries.map(e=>({...e})));
+ next[day][slot].r=alternative;
+ const shopping={},total=next.flat().reduce((sum,e)=>{for(const [k,q] of Object.entries(e.r.items))shopping[k]=(shopping[k]||0)+q*last.people;return sum+e.r.price*last.people;},0);
+ if(!verifyPlan(next,shopping,last.avoid)){alert('Troca bloqueada: ingrediente excluído detectado.');return;}
+ last={...last,schedule:next,shopping,total,swapIndex:last.swapIndex+1};
+ renderPlan();persistPlan();
+}
+$('menu').addEventListener('click',e=>{const btn=e.target.closest('.swap-recipe');if(btn)swapRecipe(Number(btn.dataset.day),Number(btn.dataset.slot));});
+function generate(){const people=+$('people').value,days=+$('days').value,meals=$('meals').value,style=$('style').value,budget=+$('budget').value,time=+$('time').value,avoid=avoidedTerms($('avoid').value);if(!Number.isInteger(people)||people<1||people>10||!Number.isFinite(budget)||budget<=0){alert('Informe uma quantidade de pessoas e um orçamento válidos.');return;}const cut=$('cut').value;if(cut!=='todos'&&style==='vegetariano'){$('style').value='todos';}if(cut!=='todos'&&$('protein').value!=='todas'&&$('protein').value!==CUT_TYPES[cut]){$('protein').value=CUT_TYPES[cut];}const effectiveStyle=$('style').value;const pool=R.filter(r=>cutMatches(r,cut)&&(effectiveStyle==='todos'||r.style===effectiveStyle)&&(r.style==='vegetariano'||$('protein').value==='todas'||( $('protein').value!=='semcarne'&&r.protein===$('protein').value))&&r.time<=time&&!recipeHasAvoided(r,avoid)).map(r=>withCut(r,cut));if(!pool.length){last=null;$('output').hidden=false;const label=cut==='todos'?'os cortes disponíveis':cut;const compatibleWithoutTime=R.filter(r=>cutMatches(r,cut)&&(effectiveStyle==='todos'||r.style===effectiveStyle)&&(r.style==='vegetariano'||$('protein').value==='todas'||($('protein').value!=='semcarne'&&r.protein===$('protein').value))&&!recipeHasAvoided(r,avoid));const hint=compatibleWithoutTime.length?'Existem receitas compatíveis com os ingredientes excluídos, mas elas ultrapassam o tempo escolhido.':'Não há receitas cadastradas para esse corte e essas exclusões; aumentar o tempo não resolverá. Experimente outro corte, mantendo as exclusões.';$('summary').innerHTML='<p class="warn"><strong>Nenhuma receita compatível com todos os filtros.</strong> Não encontramos uma preparação cadastrada para '+esc(label)+' em até '+time+' minutos sem os ingredientes excluídos. '+esc(hint)+' Nenhum ingrediente excluído será incluído no cardápio.</p>';$('menu').innerHTML='';$('shopping').innerHTML='';return;}const slots=meals==='ambos'?['Almoço','Jantar']:[meals==='almoco'?'Almoço':'Jantar'];const required=days*slots.length;const cheapest=pool.reduce((a,r)=>Math.min(a,r.price),Infinity)*people*required;if(cheapest<=budget){pool.sort((a,b)=>a.price-b.price);}let schedule=[],shopping={},total=0;for(let d=0;d<days;d++){let entries=[];for(let j=0;j<slots.length;j++){let r=chooseVariedRecipe(pool,schedule,entries,seed,d*slots.length+j);entries.push({slot:slots[j],r});total+=r.price*people;for(let [k,q] of Object.entries(r.items))shopping[k]=(shopping[k]||0)+q*people;}schedule.push(entries);}if(!verifyPlan(schedule,shopping,avoid)){last=null;$('output').hidden=false;$('summary').innerHTML='<p class="warn"><strong>Planejamento bloqueado.</strong> Uma receita ou ingrediente excluído foi detectado na conferência final. Nenhum cardápio será exibido até que os filtros sejam respeitados.</p>';$('menu').innerHTML='';$('shopping').innerHTML='';return;}last={people,days,budget,total,schedule,shopping,avoid,pool,swapIndex:0};renderPlan();persistPlan();$('output').scrollIntoView({behavior:'smooth'});try{localStorage.setItem('minhaSemanaConfig',JSON.stringify({people,days,meals,style,budget,time,protein:$('protein').value,cut:$('cut').value,avoid:$('avoid').value}));}catch(e){}}
+$('feedback-form').addEventListener('submit',e=>{
+ e.preventDefault();
+ const selected=document.querySelector('input[name="rating"]:checked');
+ if(!selected){alert('Selecione uma avaliação de 1 a 5.');return;}
+ const kind=$('feedback-type').value;
+ const message=$('feedback-message').value.trim();
+ const subject='Minha Semana — '+kind+' ('+selected.value+'/5)';
+ const body=['Olá, equipe Minha Semana!','','Minha avaliação: '+selected.value+' de 5','Assunto: '+kind,'','Minha mensagem:',message||'(Sem comentário adicional)','','Enviado a partir do Minha Semana 6.0'].join('\n');
+ window.location.href='mailto:minhasemana.receitas@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+});
+const APP_URL='https://minhasemana.github.io/';
+function planShareText(){
+ if(!last)return '';
+ const lines=['🥗 MINHA SEMANA — MEU CARDÁPIO','',last.days+' dias · '+last.people+' pessoa(s)',''];
+ last.schedule.forEach((entries,i)=>{lines.push('📅 Dia '+(i+1));entries.forEach(e=>lines.push('• '+e.slot+': '+e.r.name));lines.push('');});
+ lines.push('🛒 LISTA DE COMPRAS');
+ Object.entries(last.shopping).forEach(([item,q])=>{const unit=item.includes('(')?item.split('(')[1].split(')')[0]:'';lines.push('• '+item.split(' (')[0]+': '+String(Math.round(q*100)/100).replace('.',',')+' '+unit);});
+ lines.push('','💰 Custo total ilustrativo: R$ '+last.total.toFixed(2).replace('.',','));
+ lines.push('','Crie também seu cardápio gratuitamente: '+APP_URL);
+ return lines.join('\n');
+}
+async function shareContent(text,title){
+ if(navigator.share){
+  try{await navigator.share({title,text});return;}catch(e){if(e.name==='AbortError')return;}
+ }
+ try{await navigator.clipboard.writeText(text);alert('Texto copiado! Cole no WhatsApp ou onde preferir.');}
+ catch(e){prompt('Copie e compartilhe:',text);}
+}
+$('share-app').addEventListener('click',()=>shareContent('🥗 Conheça o Minha Semana! Planeje refeições, descubra receitas e organize suas compras gratuitamente: '+APP_URL,'Conheça o Minha Semana'));
+$('share-plan').addEventListener('click',()=>{if(!last){alert('Gere um cardápio antes de compartilhar.');return;}shareContent(planShareText(),'Meu cardápio — Minha Semana');});
+$('share-whatsapp').addEventListener('click',()=>{if(!last){alert('Gere um cardápio antes de compartilhar.');return;}window.open('https://wa.me/?text='+encodeURIComponent(planShareText()),'_blank','noopener,noreferrer');});
+$('save').onclick=()=>{if(!last)return;const t=['MINHA SEMANA','',...last.schedule.flatMap((day,i)=>['Dia '+(i+1),...day.map(e=>e.slot+': '+e.r.name),'']),'LISTA DE COMPRAS',...Object.entries(last.shopping).map(([k,q])=>k+': '+q),'','Custo ilustrativo: R$ '+last.total.toFixed(2),'Orçamento: R$ '+last.budget.toFixed(2)].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain;charset=utf-8'}));a.download='minha-semana-planejamento.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};$('form').addEventListener('submit',e=>{e.preventDefault();seed=0;generate()});$('regen').onclick=()=>{seed++;generate()};$('print').onclick=()=>{if(!last){alert('Gere um cardápio válido antes de imprimir.');return;}window.print()};$('copy').onclick=async()=>{if(!last)return;let t=Object.entries(last.shopping).map(([k,q])=>`${k}: ${q}`).join('\n');try{await navigator.clipboard.writeText(t);alert('Lista copiada.')}catch(e){prompt('Copie sua lista:',t)}};try{let x=JSON.parse(localStorage.getItem('minhaSemanaConfig')||'null');if(x)for(let k of ['people','days','meals','style','budget','time','protein','cut','avoid'])if(x[k]!==undefined)$(k).value=x[k]}catch(e){}restorePlan();renderFavorites();if('serviceWorker' in navigator && location.protocol==='https:') {
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Instalação offline indisponível:',err)));
+}
+</script></body></html>
